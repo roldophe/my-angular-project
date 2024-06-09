@@ -20,7 +20,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copy the built application from the build stage
-COPY --from=build-stage /app/dist/my-angular-project /usr/share/nginx/html
+COPY --from=build-stage /app/dist/* /usr/share/nginx/html
 
 # Expose port 80 to the outside world
 EXPOSE 80
