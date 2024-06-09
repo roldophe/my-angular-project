@@ -7,6 +7,8 @@ WORKDIR /app
 # Copy the package.json and package-lock.json files
 COPY package*.json ./
 
+RUN npm install -g @angular/cli
+
 # Install dependencies with --force flag to mitigate potential issues
 RUN npm install --force
 
@@ -19,11 +21,8 @@ RUN npm run build
 # Use the official Nginx image to serve the application
 FROM nginx:alpine
 
-# Copy custom nginx configuration (optional)
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
 # Copy the built application from the build stage
-COPY --from=build-stage /app/dist /usr/share/nginx/html
+COPY --from=build-stage /app/dist/* /usr/share/nginx/html
 # Expose port 80 to the outside world
 EXPOSE 80
 
